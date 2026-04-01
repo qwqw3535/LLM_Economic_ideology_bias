@@ -1,15 +1,13 @@
-from __future__ import annotations
-
-ICL_EXPERIMENT_PROMPT = """# Role
+EVAL_TASK2_EXAMPLE_PROMPT = """# Role
 You are an expert economist.
 
 # Task
-You are given reference examples related to the target treatment-outcome pair.
-Predict the most likely sign for the target pair in the target context.
+You are given examples related to the target treatment–outcome pair, potentially with different causal signs.
+Predict the most likely sign for the treatment–outcome pair in the target context.
 
 # Sign Definitions
-- '+': The treatment increases the outcome.
-- '-': The treatment decreases the outcome.
+- '+': The treatment increases the outcome (positive and statistically significant effect).
+- '-': The treatment decreases the outcome (negative and statistically significant effect).
 - 'None': No statistically significant effect.
 - 'mixed': The effect varies across subgroups or specifications.
 
@@ -22,9 +20,7 @@ Outcome: {outcome}
 Context: {context_new}
 
 # Output Format
-Respond with exactly one label and nothing else:
-+ , - , None , or mixed
-
-Answer:
+Respond with a JSON object containing:
+- predicted_sign: "+", "-", "None", or "mixed"
+- reasoning: A concise explanation of your reasoning
 """
-
