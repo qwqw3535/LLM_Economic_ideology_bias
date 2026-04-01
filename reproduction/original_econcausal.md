@@ -4,7 +4,7 @@ This artifact does not redistribute the original 10,490-row EconCausal corpus.
 
 Use the official external release for the base benchmark:
 
-- Paper landing page: <https://huggingface.co/papers/2510.07231>
+- Paper landing page: <https://arxiv.org/abs/2510.07231>
 - Benchmark repository referenced by that page: <https://github.com/econaikaist/econcausal-benchmark/tree/main>
 
 This artifact starts from either:
