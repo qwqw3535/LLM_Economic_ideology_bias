@@ -23,4 +23,3 @@ It intentionally excludes some larger working outputs, especially:
 - local dependency folders and virtual environments
 
 The zip is self-contained relative to the released files it includes.
-
