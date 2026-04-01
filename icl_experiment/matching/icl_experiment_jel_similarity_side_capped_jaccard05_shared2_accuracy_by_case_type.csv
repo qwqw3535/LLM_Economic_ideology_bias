@@ -1,0 +1,5 @@
+pair_case_type,n_predictions,correct_predictions,n_triplets,accuracy
+lib-lib,7660,5475,383,0.7147519582245431
+cons-lib,6380,4461,319,0.6992163009404389
+lib-cons,4920,3081,246,0.626219512195122
+cons-cons,4040,2478,202,0.6133663366336634

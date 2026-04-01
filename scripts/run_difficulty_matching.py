@@ -4,10 +4,9 @@ from _artifact_common import ROOT, run_module
 
 
 run_module(
-    "extended.ideology_bias.analyze_task1_bias_difficulty_matched",
+    "extended.ideology_bias.analyze_main_results_difficulty_matched",
     [
         "--difficulty-path",
-        str(ROOT / "outputs" / "classification" / "difficulty_scores_clean.jsonl"),
+        str(ROOT / "difficulty_matching" / "outputs" / "difficulty_scores_clean.jsonl"),
     ],
 )
-

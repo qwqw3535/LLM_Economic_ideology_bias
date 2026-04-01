@@ -29,8 +29,7 @@ from econ_eval.common.utils import (
 DATA_DIR = ARTIFACT_ROOT / "data_derived"
 EXTENDED_DIR = CODE_ROOT / "extended"
 RESULTS_DIR = ARTIFACT_ROOT / "outputs" / "classification"
-PROMPT_PATH = EXTENDED_DIR / "classification_prompt_ideology.py"
-DEFAULT_INPUT_PATH = DATA_DIR / "task1_ideology_subset_1056.jsonl"
+DEFAULT_INPUT_PATH = ARTIFACT_ROOT / "main_results" / "input" / "ideology_sensitive_subset_1056.jsonl"
 
 VALID_SIGNS = {"+", "-", "None", "Mixed"}
 DEFAULT_MODEL_KEYS = [
@@ -139,12 +138,15 @@ IDEOLOGY_RESPONSE_SCHEMA = {
 
 
 def load_prompt(prompt_path: Path | None = None) -> str:
-    """Load a prompt template stored as a module docstring."""
-    prompt_path = prompt_path or PROMPT_PATH
-    text = Path(prompt_path).read_text(encoding="utf-8").strip()
-    if text.startswith('"""') and text.endswith('"""'):
-        text = text[3:-3].strip()
-    return text
+    """Load the public classification prompt template."""
+    if prompt_path is not None:
+        text = Path(prompt_path).read_text(encoding="utf-8").strip()
+        if text.startswith('"""') and text.endswith('"""'):
+            text = text[3:-3].strip()
+        return text
+    from prompts.classification_ideology import CLASSIFICATION_IDEOLOGY_PROMPT
+
+    return CLASSIFICATION_IDEOLOGY_PROMPT.strip()
 
 
 def load_jsonl(path: str | Path) -> list[dict]:

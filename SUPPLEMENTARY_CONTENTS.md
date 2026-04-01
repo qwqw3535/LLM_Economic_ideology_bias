@@ -1,25 +1,20 @@
 # Supplementary Zip
 
-The file `LLM_Economic_ideology_bias_supplementary.zip` is the single-file supplementary package prepared for anonymous submission.
+`LLM_Economic_ideology_bias_supplementary.zip` is the single-file supplementary package prepared for anonymous submission.
 
-It is designed to stay below the `50 MB` supplementary-upload limit and includes:
+It includes:
 
-- source code
-- scripts
-- reproduction docs
-- released derived data
-- compressed classification outputs
-- compressed canonical metadata
-- difficulty scores
-- ideology subset file
-- Task 2 matching catalog
-- compressed multi-LLM classification file used for subset construction
+- split prompt files
+- minimal released code
+- classification outputs
+- main-results input and curated outputs
+- ICL-experiment input, matching outputs, and curated outputs
+- difficulty-scoring outputs
+- reproduction notes
 
-It intentionally excludes some larger working outputs, especially:
+It excludes:
 
-- full large analysis-row dumps
-- the largest curated model result files
-- temporary verification outputs
-- local dependency folders and virtual environments
-
-The zip is self-contained relative to the released files it includes.
+- the original 10,490-row EconCausal source data
+- reasoning-frame analysis
+- any unused analysis code or intermediate files not used in the paper
+- unused auxiliary experiments and local working files

@@ -1,3 +1,0 @@
-ground_truth_side,n_predictions,correct_predictions,n_triplets,accuracy
-liberal,35280,26212,882,0.7429705215419501
-conservative,35280,23646,882,0.6702380952380952

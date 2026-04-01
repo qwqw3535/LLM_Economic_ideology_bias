@@ -10,8 +10,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from evaluation.config import (
-    DEFAULT_TASK2_SOURCE_PATH,
-    DEFAULT_TASK3_SOURCE_PATH,
+    DEFAULT_ICL_SOURCE_PATH,
     DEFAULT_DATA_PATH,
     EvaluationConfig,
     SUPPORTED_MODELS,
@@ -42,24 +41,21 @@ def setup_logging(level: int = logging.INFO) -> None:
 def main():
     """Main entry point."""
     parser = argparse.ArgumentParser(
-        description="LLM Causal Reasoning Evaluation Pipeline",
+        description="LLM evaluation pipeline for the public COLM submission artifact",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
   # Run all public tasks with default models (auto-resumes, retries errors)
   python run_evaluation.py
 
-  # Run specific tasks
-  python run_evaluation.py --tasks task1 task2
+  # Run both released experiments
+  python run_evaluation.py --tasks main_results icl_experiment
 
   # Run with specific models
   python run_evaluation.py --models openai gemini claude
 
   # Run with limited samples for testing
   python run_evaluation.py --max-samples 10
-
-  # Run task3 with 3 examples instead of 1
-  python run_evaluation.py --tasks task3 --task3-examples 3
 
   # Only compute metrics (no new evaluation)
   python run_evaluation.py --metrics-only
@@ -75,7 +71,7 @@ Note: Auto-resume is enabled by default. Completed results are preserved,
         nargs="+",
         choices=TASK_TYPES + ["all"],
         default=["all"],
-        help="Tasks to run (default: all)"
+        help="Experiments to run (default: all)"
     )
 
     # Model configuration
@@ -118,20 +114,14 @@ Note: Auto-resume is enabled by default. Completed results are preserved,
     parser.add_argument(
         "--output-dir",
         type=str,
-        default=str(ARTIFACT_ROOT / "outputs" / "evaluation"),
+        default=str(ARTIFACT_ROOT / "outputs"),
         help="Output directory for results"
     )
     parser.add_argument(
-        "--task2-source-path",
+        "--icl-source-path",
         type=str,
         default=None,
-        help="Generated JSONL source for public task2 (default: exact50 side_capped)"
-    )
-    parser.add_argument(
-        "--task3-source-path",
-        type=str,
-        default=None,
-        help="Generated JSONL source for public task3 (default: exact50 side_capped)"
+        help="Released ICL experiment source JSONL(.gz)"
     )
 
     # Sampling configuration
@@ -150,26 +140,15 @@ Note: Auto-resume is enabled by default. Completed results are preserved,
 
     # Task-specific configuration
     parser.add_argument(
-        "--task2-examples",
+        "--icl-examples",
         type=int,
         default=1,
-        help="Number of examples for task 2 (default: 1)"
+        help="Number of reference examples for the ICL experiment (default: 1)"
     )
     parser.add_argument(
-        "--task3-examples",
-        type=int,
-        default=1,
-        help="Number of examples for task 3 (default: 1)"
-    )
-    parser.add_argument(
-        "--task1-no-context",
+        "--main-results-no-context",
         action="store_true",
-        help="Exclude context from task1 prompts (for ablation study)"
-    )
-    parser.add_argument(
-        "--task1-unknown-option",
-        action="store_true",
-        help="Add 'unknown' to task1 answer choices (for ablation study)"
+        help="Exclude context from the main-results prompt"
     )
 
     # Processing configuration
@@ -218,19 +197,16 @@ Note: Auto-resume is enabled by default. Completed results are preserved,
         data_path = DEFAULT_DATA_PATH
 
     logger.info("=" * 60)
-    logger.info("LLM Causal Reasoning Evaluation Pipeline")
+    logger.info("Public Artifact Evaluation Pipeline")
     logger.info("=" * 60)
     logger.info(f"Tasks: {task_types}")
     logger.info(f"Models: {models}")
     logger.info(f"Journal type: {args.journal_type}")
     logger.info(f"Gemini API: {'FINANCE key' if args.journal_type == 'finance' else 'ECON key'}")
     logger.info(f"Data path: {data_path}")
-    logger.info(f"Task2 examples: {args.task2_examples}")
-    logger.info(f"Task3 examples: {args.task3_examples}")
-    logger.info(f"Task2 source path: {args.task2_source_path or 'default exact50 side_capped'}")
-    logger.info(f"Task3 source path: {args.task3_source_path or 'default exact50 side_capped'}")
-    logger.info(f"Task1 no context: {args.task1_no_context}")
-    logger.info(f"Task1 unknown option: {args.task1_unknown_option}")
+    logger.info(f"ICL examples: {args.icl_examples}")
+    logger.info(f"ICL source path: {args.icl_source_path or DEFAULT_ICL_SOURCE_PATH}")
+    logger.info(f"Main results no context: {args.main_results_no_context}")
     logger.info(f"Output directory: {args.output_dir}")
 
     # Metrics-only mode
@@ -266,14 +242,11 @@ Note: Auto-resume is enabled by default. Completed results are preserved,
         data_path=data_path,
         output_dir=args.output_dir,
         journal_type=args.journal_type,
-        task2_source_path=args.task2_source_path or DEFAULT_TASK2_SOURCE_PATH,
-        task3_source_path=args.task3_source_path or DEFAULT_TASK3_SOURCE_PATH,
+        icl_source_path=args.icl_source_path or DEFAULT_ICL_SOURCE_PATH,
         max_samples_per_task=args.max_samples,
         random_seed=args.seed,
-        task2_num_examples=args.task2_examples,
-        task3_num_examples=args.task3_examples,
-        task1_no_context=args.task1_no_context,
-        task1_unknown_option=args.task1_unknown_option,
+        icl_num_examples=args.icl_examples,
+        main_results_no_context=args.main_results_no_context,
         max_workers=args.max_workers,
         checkpoint_interval=args.checkpoint_interval,
     )

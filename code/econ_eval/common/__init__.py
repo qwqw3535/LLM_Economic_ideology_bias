@@ -1,4 +1,4 @@
-"""Common utilities for the causal relation extraction pipeline.
+"""Common utilities for the released evaluation pipeline.
 
 Uses lazy imports to avoid loading heavy dependencies when not needed.
 """
@@ -15,30 +15,12 @@ def __getattr__(name):
         "get_pdf_files", "setup_logging", "HuggingFaceClient",
     ]
 
-    # Prompts imports
-    prompt_exports = [
-        "STEP1_PROMPT", "STEP2_PROMPT", "STEP3_PROMPT", "STEP4_PROMPT",
-        "EVAL_TASK1_PROMPT", "EVAL_TASK2_PROMPT", "EVAL_TASK2_PROMPT_NO_CONTEXT",
-        "EVAL_TASK2_EXAMPLE_PROMPT", "EVAL_TASK2_EXAMPLE_LABEL_PROMPT",
-        "EVAL_TASK3_NOISY_EXAMPLE_PROMPT", "EVAL_TASK3_NOISY_EXAMPLE_LABEL_PROMPT",
-        "EVAL_TASK3_PROMPT", "EVAL_TASK4_PROMPT",
-    ]
-
     # Schema imports
-    schema_exports = [
-        "STEP1_SCHEMA", "STEP2_SCHEMA", "STEP3_SCHEMA", "STEP4_SCHEMA",
-        "EVAL_TASK1_SCHEMA", "EVAL_TASK2_SCHEMA",
-        "EVAL_TASK2_EXAMPLE_SCHEMA", "EVAL_TASK3_NOISY_EXAMPLE_SCHEMA",
-        "EVAL_TASK3_SCHEMA", "EVAL_TASK4_SCHEMA",
-    ]
+    schema_exports = ["EVAL_TASK2_SCHEMA", "EVAL_TASK2_EXAMPLE_SCHEMA"]
 
     if name in utils_exports:
         from . import utils
         return getattr(utils, name)
-
-    if name in prompt_exports:
-        from . import prompts
-        return getattr(prompts, name)
 
     if name in schema_exports:
         from . import schemas
@@ -62,29 +44,7 @@ __all__ = [
     "load_csv",
     "get_pdf_files",
     "setup_logging",
-    # Prompts
-    "STEP1_PROMPT",
-    "STEP2_PROMPT",
-    "STEP3_PROMPT",
-    "STEP4_PROMPT",
-    "EVAL_TASK1_PROMPT",
-    "EVAL_TASK2_PROMPT",
-    "EVAL_TASK2_PROMPT_NO_CONTEXT",
-    "EVAL_TASK2_EXAMPLE_PROMPT",
-    "EVAL_TASK2_EXAMPLE_LABEL_PROMPT",
-    "EVAL_TASK3_NOISY_EXAMPLE_PROMPT",
-    "EVAL_TASK3_NOISY_EXAMPLE_LABEL_PROMPT",
-    "EVAL_TASK3_PROMPT",
-    "EVAL_TASK4_PROMPT",
     # Schemas
-    "STEP1_SCHEMA",
-    "STEP2_SCHEMA",
-    "STEP3_SCHEMA",
-    "STEP4_SCHEMA",
-    "EVAL_TASK1_SCHEMA",
     "EVAL_TASK2_SCHEMA",
     "EVAL_TASK2_EXAMPLE_SCHEMA",
-    "EVAL_TASK3_NOISY_EXAMPLE_SCHEMA",
-    "EVAL_TASK3_SCHEMA",
-    "EVAL_TASK4_SCHEMA",
 ]

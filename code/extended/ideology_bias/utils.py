@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import gzip
 import hashlib
 import json
 import re
@@ -95,7 +96,9 @@ def safe_slug(value: object) -> str:
 
 def iter_jsonl(path: str | Path) -> Iterable[dict]:
     """Yield parsed JSON objects from a JSONL file."""
-    with open(path, "r", encoding="utf-8") as handle:
+    path = Path(path)
+    opener = gzip.open if path.suffix == ".gz" else open
+    with opener(path, "rt", encoding="utf-8") as handle:
         for line in handle:
             line = line.strip()
             if not line:
@@ -174,7 +177,7 @@ def parse_json_maybe(value: object, default: object = None) -> object:
 
 
 def parse_example_details(value: object) -> list[dict]:
-    """Parse the raw `example_details` string stored in task2/task3 source files."""
+    """Parse the raw `example_details` string stored in released ICL source files."""
     parsed = parse_json_maybe(value, default=[])
     if not isinstance(parsed, list):
         return []
@@ -182,7 +185,7 @@ def parse_example_details(value: object) -> list[dict]:
 
 
 def parse_model_meta(family: str, model: str) -> dict:
-    """Infer parameter-bucket and tier metadata from model names."""
+    """Infer parameter-bucket and tier labels from model names."""
     lowered = model.lower()
     match = re.search(r"(\d+(?:\.\d+)?)b", lowered)
     parameter_billion = float(match.group(1)) if match else None

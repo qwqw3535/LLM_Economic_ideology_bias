@@ -34,18 +34,16 @@ from .config import OPENROUTER_FAMILIES, OPENROUTER_MAX_WORKERS, HF_ENDPOINT_MAX
 from .data_generator import TestCaseGenerator
 from .tasks import (
     BaseTask,
-    Task2SignPrediction,
-    Task3ContextTOFixed,
-    Task4ContextFixed,
+    MainResultsTask,
+    ICLExperimentTask,
 )
 from .tasks.base import TaskResult
 
 
 # Task registry
 TASK_REGISTRY = {
-    "task1": Task2SignPrediction,
-    "task2": Task3ContextTOFixed,
-    "task3": Task4ContextFixed,
+    "main_results": MainResultsTask,
+    "icl_experiment": ICLExperimentTask,
 }
 
 
@@ -68,21 +66,17 @@ class EvaluationOrchestrator:
         # Initialize tasks
         self.tasks = {}
         for name, cls in TASK_REGISTRY.items():
-            if name == "task1":
+            if name == "main_results":
                 self.tasks[name] = cls(
-                    no_context=config.task1_no_context,
-                    unknown_option=config.task1_unknown_option,
-                    prompt_variant=config.task1_prompt_variant,
-                    label_only=config.label_only,
+                    no_context=config.main_results_no_context,
                 )
             else:
-                self.tasks[name] = cls(label_only=config.label_only)
+                self.tasks[name] = cls()
 
         # Initialize data generator
         self.data_generator = TestCaseGenerator(
             data_path=config.data_path,
-            task2_source_path=config.task2_source_path,
-            task3_source_path=config.task3_source_path,
+            icl_source_path=config.icl_source_path,
             seed=config.random_seed,
         )
 
@@ -273,7 +267,7 @@ class EvaluationOrchestrator:
         Run a single task for a single model.
 
         Args:
-            task_type: Task type (task1, task2, task3)
+            task_type: Released experiment name
             family: Model family (openai, gemini, etc.)
             model_name: Specific model name (gpt-4o-mini, gemini-2.0-flash, etc.)
             test_cases: List of test cases
@@ -444,17 +438,12 @@ class EvaluationOrchestrator:
         self.logger.info(f"{'='*60}")
 
         # Generate test cases
-        if task_type == "task1":
-            test_cases = self.data_generator.generate_task2_cases(self.config.max_samples_per_task)
-        elif task_type == "task2":
-            test_cases = self.data_generator.generate_task3_cases(
+        if task_type == "main_results":
+            test_cases = self.data_generator.generate_main_results_cases(self.config.max_samples_per_task)
+        elif task_type == "icl_experiment":
+            test_cases = self.data_generator.generate_icl_experiment_cases(
                 self.config.max_samples_per_task,
-                num_examples=self.config.task2_num_examples,
-            )
-        elif task_type == "task3":
-            test_cases = self.data_generator.generate_task4_cases(
-                self.config.max_samples_per_task,
-                num_examples=self.config.task3_num_examples,
+                num_examples=self.config.icl_num_examples,
             )
         else:
             self.logger.error(f"Unknown task type: {task_type}")

@@ -13,13 +13,11 @@ from urllib.request import urlopen
 
 # Default paths for the standalone anonymous artifact.
 ARTIFACT_ROOT = Path(__file__).resolve().parents[3]
-DATA_DIR = ARTIFACT_ROOT / "data_derived"
 OUTPUT_ROOT = ARTIFACT_ROOT / "outputs"
 
-DEFAULT_DATA_PATH = str(DATA_DIR / "task1_ideology_subset_1056.jsonl")
-DEFAULT_OUTPUT_DIR = str(OUTPUT_ROOT / "evaluation")
-DEFAULT_TASK2_SOURCE_PATH = str(DATA_DIR / "task2_jel_similarity_side_capped_jaccard05_shared2.jsonl")
-DEFAULT_TASK3_SOURCE_PATH = str(DATA_DIR / "task2_jel_similarity_side_capped_jaccard05_shared2.jsonl")
+DEFAULT_DATA_PATH = str(ARTIFACT_ROOT / "main_results" / "input" / "ideology_sensitive_subset_1056.jsonl")
+DEFAULT_OUTPUT_DIR = str(OUTPUT_ROOT)
+DEFAULT_ICL_SOURCE_PATH = str(ARTIFACT_ROOT / "icl_experiment" / "input" / "jel_similarity_shared2.jsonl.gz")
 
 VERIFIED_HF_ENDPOINT_MODELS = [
     "Qwen/Qwen3-8B-Base",
@@ -140,11 +138,7 @@ MODEL_VARIANT_SIBLINGS = {
     "meta-llama/llama-3.1-405b": ["meta-llama/llama-3.1-405b-instruct"],
 }
 
-# Public task types
-# task1: former task2 (sign prediction)
-# task2: former task3 (context-aware reasoning)
-# task3: former task4 (noise robustness)
-TASK_TYPES = ["task1", "task2", "task3"]
+TASK_TYPES = ["main_results", "icl_experiment"]
 
 # Models with rate limit restrictions (max_workers capped at 20)
 RATE_LIMITED_MODELS = [
@@ -209,19 +203,15 @@ class EvaluationConfig:
     data_path: str = DEFAULT_DATA_PATH
     output_dir: str = DEFAULT_OUTPUT_DIR
     journal_type: str = "econ"  # "econ" or "finance" - used for API key selection
-    task2_source_path: str = DEFAULT_TASK2_SOURCE_PATH
-    task3_source_path: str = DEFAULT_TASK3_SOURCE_PATH
+    icl_source_path: str = DEFAULT_ICL_SOURCE_PATH
 
     # Sampling configuration
     max_samples_per_task: Optional[int] = None
     random_seed: int = 42
 
     # Task-specific configuration
-    task2_num_examples: int = 1  # Number of examples for task 2 (former task3)
-    task3_num_examples: int = 1  # Number of examples for task 3 (former task4)
-    task1_no_context: bool = False  # If True, exclude context from task1 prompts
-    task1_unknown_option: bool = False  # If True, add 'unknown' to task1 answer choices
-    task1_prompt_variant: str = "default"  # default | choice | raw
+    icl_num_examples: int = 1
+    main_results_no_context: bool = False
     label_only: bool = False
 
     # Processing configuration
@@ -256,10 +246,8 @@ class EvaluationConfig:
                 )
 
         # Validate num_examples
-        if self.task2_num_examples < 1:
-            raise ValueError(f"task2_num_examples must be >= 1, got {self.task2_num_examples}")
-        if self.task3_num_examples < 1:
-            raise ValueError(f"task3_num_examples must be >= 1, got {self.task3_num_examples}")
+        if self.icl_num_examples < 1:
+            raise ValueError(f"icl_num_examples must be >= 1, got {self.icl_num_examples}")
         if self.hf_max_new_tokens < 1:
             raise ValueError(f"hf_max_new_tokens must be >= 1, got {self.hf_max_new_tokens}")
 

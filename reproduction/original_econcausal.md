@@ -10,17 +10,15 @@ Use the official external release for the base benchmark:
 This artifact starts from either:
 
 1. the original EconCausal release downloaded from the external source above, or
-2. the derived paper data already included under `data_derived/`.
+2. the derived paper data already included under `main_results/` and `icl_experiment/`.
 
 Use the original source when reproducing:
 
 - full-corpus ideology classification
-- full metadata normalization from original triplets
 - any step that requires the non-redistributed 10,490-row benchmark file
 
 Use the included derived data when reproducing:
 
-- Task 1 ideology-subset evaluation
-- official Task 2 reruns for this paper
+- main-results reruns on the ideology-sensitive subset
+- official ICL-experiment reruns for this paper
 - curated paper analyses based on the included subset files
-
