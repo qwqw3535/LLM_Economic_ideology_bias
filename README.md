@@ -73,7 +73,7 @@ Export only the provider keys you need. No API keys are embedded in this release
 ## 🔗 Original EconCausal Source
 
 The original benchmark stays external to this repository.
-See [original_econcausal.md](/home/donggyu/econ_causality/anonymous_artifact/reproduction/original_econcausal.md) for the source-paper link and acquisition note.
+See [original_econcausal.md](reproduction/original_econcausal.md) for the source-paper link and acquisition note.
 
 ## 📦 Size Notes
 
@@ -83,10 +83,10 @@ See [original_econcausal.md](/home/donggyu/econ_causality/anonymous_artifact/rep
 
 ## 📄 Reproduction Notes
 
-- [classification.md](/home/donggyu/econ_causality/anonymous_artifact/reproduction/classification.md)
-- [main_results.md](/home/donggyu/econ_causality/anonymous_artifact/reproduction/main_results.md)
-- [icl_experiment.md](/home/donggyu/econ_causality/anonymous_artifact/reproduction/icl_experiment.md)
-- [difficulty_matching.md](/home/donggyu/econ_causality/anonymous_artifact/reproduction/difficulty_matching.md)
+- [classification.md](reproduction/classification.md)
+- [main_results.md](reproduction/main_results.md)
+- [icl_experiment.md](reproduction/icl_experiment.md)
+- [difficulty_matching.md](reproduction/difficulty_matching.md)
 
 ## 🕶 Anonymous Review Context
 
