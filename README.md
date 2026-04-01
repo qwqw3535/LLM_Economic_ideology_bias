@@ -1,28 +1,43 @@
-# Anonymous Reproduction Artifact
+# 📘 Anonymous COLM Submission
 
-This repository contains the anonymous reproduction package for a COLM submission.
+This repository is the anonymous companion repository for a COLM submission on ideological bias in LLM-based economic causal reasoning.
 
-The released contents are organized around the paper's four public components:
+It is designed to work both as:
+
+- a paper-introduction repository for reviewers
+- a lightweight reproduction package for the main experiments
+
+## ✨ What Is Included
+
+This release is organized around four paper-facing components:
 
 1. `classification`
 2. `main_results`
 3. `icl_experiment`
 4. `difficulty_matching`
 
-The original 10,490-row EconCausal source corpus is not redistributed here. This artifact only ships derived inputs, prompts, code, and curated outputs used for the paper.
+The original 10,490-row EconCausal source corpus is intentionally not redistributed here. This repository contains only the derived inputs, prompts, code, and curated outputs needed for the paper.
 
-## Layout
+## 🗂 Repository Map
 
-- `classification/`: released classification outputs and subset artifacts.
-- `main_results/`: released input subset and curated model outputs for the paper's main result.
-- `icl_experiment/`: released ICL input file, matching audit files, and curated model outputs.
-- `difficulty_matching/`: released difficulty scores and matched-analysis outputs.
-- `code/`: minimal code kept for the released artifact.
-- `code/prompts/`: prompt files split by paper component.
-- `reproduction/`: short reproduction notes for each released component.
-- `scripts/`: thin public wrappers.
+- `classification/`
+  Released classification outputs and subset artifacts.
+- `main_results/`
+  Released ideology-sensitive subset and curated outputs for the paper's main result.
+- `icl_experiment/`
+  Released ICL input file, matching files, and curated outputs.
+- `difficulty_matching/`
+  Released difficulty scores and matched-analysis outputs.
+- `code/`
+  Minimal code kept for the released artifact.
+- `code/prompts/`
+  Prompt files split by paper component.
+- `reproduction/`
+  Short reproduction notes for each released component.
+- `scripts/`
+  Thin public wrappers for reruns.
 
-## Quick Start
+## 🚀 Quick Start
 
 ```bash
 python3.10 -m venv .venv
@@ -31,30 +46,48 @@ pip install -r requirements.txt
 cp env.example .env
 ```
 
-Export only the provider keys you need. The copied code has no embedded secret fallbacks.
+Export only the provider keys you need. No API keys are embedded in this release.
 
-## Main Entry Points
+## 🧪 Main Entry Points
 
-- Classification: `python scripts/run_classification.py --input /path/to/original_econcausal.jsonl`
-- Main Results: `python scripts/run_main_results.py`
-- ICL Experiment: `python scripts/run_icl_experiment.py`
-- ICL example generation: `python scripts/run_generate_icl_experiment.py`
-- Difficulty scoring: `python scripts/run_difficulty_scoring.py`
-- Difficulty matching: `python scripts/run_difficulty_matching.py`
+- Classification
+  `python scripts/run_classification.py --input /path/to/original_econcausal.jsonl`
+- Main Results
+  `python scripts/run_main_results.py`
+- ICL Experiment
+  `python scripts/run_icl_experiment.py`
+- ICL example generation
+  `python scripts/run_generate_icl_experiment.py`
+- Difficulty scoring
+  `python scripts/run_difficulty_scoring.py`
+- Difficulty matching
+  `python scripts/run_difficulty_matching.py`
 
-## Prompt Files
+## 🧠 Prompt Files
 
 - `code/prompts/classification_ideology.py`
 - `code/prompts/main_results.py`
 - `code/prompts/icl_experiment.py`
 - `code/prompts/difficulty_scoring.py`
 
-## Original EconCausal Source
+## 🔗 Original EconCausal Source
 
-See [original_econcausal.md](/home/donggyu/econ_causality/anonymous_artifact/reproduction/original_econcausal.md). The source benchmark remains external to this artifact.
+The original benchmark stays external to this repository.
+See [original_econcausal.md](/home/donggyu/econ_causality/anonymous_artifact/reproduction/original_econcausal.md) for the source-paper link and acquisition note.
 
-## Size Policy
+## 📦 Size Notes
 
 - Files larger than `8 MB` were compressed, omitted, or moved out of the main tree.
-- The supplementary archive is provided separately as a single self-contained zip under `50 MB`.
-- Some large working files that were not needed for the paper were intentionally excluded.
+- A separate supplementary archive is provided as a single self-contained zip under `50 MB`.
+- Large intermediate working files not used in the paper were intentionally removed.
+
+## 📄 Reproduction Notes
+
+- [classification.md](/home/donggyu/econ_causality/anonymous_artifact/reproduction/classification.md)
+- [main_results.md](/home/donggyu/econ_causality/anonymous_artifact/reproduction/main_results.md)
+- [icl_experiment.md](/home/donggyu/econ_causality/anonymous_artifact/reproduction/icl_experiment.md)
+- [difficulty_matching.md](/home/donggyu/econ_causality/anonymous_artifact/reproduction/difficulty_matching.md)
+
+## 🕶 Anonymous Review Context
+
+This repository is prepared for anonymous review. It avoids redistributing the original full benchmark and keeps only the paper-relevant derived artifacts needed to inspect or rerun the released experiments.
