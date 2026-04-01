@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import gzip
 import random
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -13,14 +14,15 @@ import sys
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 ARTIFACT_ROOT = Path(__file__).resolve().parents[3]
-DEFAULT_TASK23_SOURCE = ARTIFACT_ROOT / "data_derived" / "task2_jel_similarity_side_capped_jaccard05_shared2.jsonl"
+DEFAULT_TASK23_SOURCE = ARTIFACT_ROOT / "data_derived" / "task2_jel_similarity_side_capped_jaccard05_shared2.jsonl.gz"
 
 
 def load_json(file_path):
     """Load JSON or JSONL file."""
     path = Path(file_path)
-    with open(path, "r", encoding="utf-8") as f:
-        if path.suffix == ".jsonl":
+    opener = gzip.open if path.suffix == ".gz" else open
+    with opener(path, "rt", encoding="utf-8") as f:
+        if path.suffixes[-2:] == [".jsonl", ".gz"] or path.suffix == ".jsonl":
             return [json.loads(line) for line in f if line.strip()]
         return json.load(f)
 

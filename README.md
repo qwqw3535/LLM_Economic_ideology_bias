@@ -1,6 +1,6 @@
 # Anonymous Reproduction Artifact
 
-This repository contains the anonymous reproduction package for the COLM 2026 submission on ideological bias in LLM economic causal reasoning.
+This repository contains the anonymous reproduction package for a COLM submission.
 
 It includes four reproducibility components:
 
@@ -34,7 +34,7 @@ Export only the provider keys you need. The copied code has no embedded secret f
 ## Included Derived Data
 
 - `data_derived/task1_ideology_subset_1056.jsonl`
-- `data_derived/task2_jel_similarity_side_capped_jaccard05_shared2.jsonl`
+- `data_derived/task2_jel_similarity_side_capped_jaccard05_shared2.jsonl.gz`
 
 ## Curated Results
 

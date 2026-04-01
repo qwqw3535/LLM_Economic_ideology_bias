@@ -11,11 +11,10 @@ run_script(
         "--data-path",
         str(ROOT / "data_derived" / "task1_ideology_subset_1056.jsonl"),
         "--task2-source-path",
-        str(ROOT / "data_derived" / "task2_jel_similarity_side_capped_jaccard05_shared2.jsonl"),
+        str(ROOT / "data_derived" / "task2_jel_similarity_side_capped_jaccard05_shared2.jsonl.gz"),
         "--task3-source-path",
-        str(ROOT / "data_derived" / "task2_jel_similarity_side_capped_jaccard05_shared2.jsonl"),
+        str(ROOT / "data_derived" / "task2_jel_similarity_side_capped_jaccard05_shared2.jsonl.gz"),
         "--output-dir",
         str(ROOT / "outputs" / "evaluation" / "task2"),
     ],
 )
-
